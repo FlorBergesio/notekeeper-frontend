@@ -4,14 +4,14 @@ import './index.css';
 import Button from './../button';
 
 const Login = () => {
-  const { setUser } = useContext( UserContext );
+  const { user, setUser } = useContext( UserContext );
 
   const refUserInput = useRef( null );
 
   const handleFormSubmit = ( event ) => {
     event.preventDefault();
     const userInput = refUserInput.current.value;
-    setUser( { name: userInput } );
+    setUser( { ...user, name: userInput } );
   };
 
   return (

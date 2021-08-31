@@ -7,7 +7,10 @@ const Logout = () => {
   const { setUser } = useContext( UserContext );
 
   const handleLogout = () => {
-    setUser( { name: null } );
+    setUser( {
+      _id: null,
+      name: null
+    } );
   };
 
   return (
