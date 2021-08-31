@@ -1,3 +1,9 @@
+# Notekeeper - frontend
+
+React frontend for Notekeeper app (consumes API made in Node)
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
