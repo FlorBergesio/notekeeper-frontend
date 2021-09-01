@@ -1,17 +1,55 @@
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useState, useEffect, useCallback } from 'react';
 import { UserContext } from '../../context/UserContext';
 import './index.css';
 import Button from './../button';
 
 const Login = () => {
-  const { user, setUser } = useContext( UserContext );
+  const { setUser } = useContext( UserContext );
+
+  const [ userLogin, setUserLogin ] = useState({
+    username: null,
+    password: null
+  });
 
   const refUserInput = useRef( null );
+  const refpasswordInput = useRef( null );
+
+  const validateUser = useCallback( async () => {
+    const urlAPI = `${process.env.REACT_APP_API_URL}/users/login`;
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "username": userLogin.username,
+        "password": userLogin.password
+      })
+    };
+    const response = await fetch(urlAPI, requestOptions);
+
+    const dataFromAPI = await response.json();
+    const userLoggedIn = dataFromAPI.body;
+    setUser({
+      _id: userLoggedIn._id,
+      name: userLoggedIn.name,
+      username: userLoggedIn.username,
+    });
+  }, [ userLogin, setUser ] );
+
+  useEffect( () => {
+    if ( userLogin.username !== null && userLogin.password !== null ) {
+      validateUser();
+    }    
+  }, [ userLogin, validateUser ] );
 
   const handleFormSubmit = ( event ) => {
     event.preventDefault();
     const userInput = refUserInput.current.value;
-    setUser( { ...user, name: userInput } );
+    const passwordInput = refpasswordInput.current.value;
+
+    setUserLogin({
+      username: userInput,
+      password: passwordInput
+    });
   };
 
   return (
@@ -21,13 +59,22 @@ const Login = () => {
       </h2>
 
       <form onSubmit={ handleFormSubmit }>
-        <label htmlFor="userInput">Name:</label>
+        <label htmlFor="userInput">Username:</label>
         <input 
           type="text" 
           id="userInput" 
-          placeholder="Your name"
+          placeholder="Your username"
           ref={refUserInput}
         />
+
+        <label htmlFor="passwordInput">Password:</label>
+        <input 
+          type="password" 
+          id="passwordInput" 
+          placeholder="Your password"
+          ref={refpasswordInput}
+        />
+
         <Button
           type="Submit"
           text="Login"

@@ -1,48 +1,39 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../context/UserContext';
 import './index.css';
 import Logout from './../logout';
 import NotebooksContainer from '../notebooks-container';
 
 const NotebookCollection = () => {
-  const { user, setUser } = useContext( UserContext );
+  const { user } = useContext( UserContext );
 
   const [ loading, setLoading ] = useState( false );
-  //const [ dataRetrieved, setDataRetrieved ] = useState( [] );
   const [ notebooks, setNotebooks ] = useState( [] );
+
+  const fetchNotebooks = useCallback( async () => {
+    const urlAPI = `${process.env.REACT_APP_API_URL}/notebooks?user=${user._id}`;
+    const response = await fetch(urlAPI);
+    const dataFromAPI = await response.json();
+    const notebooksByUser = dataFromAPI.body;
+    setNotebooks( notebooksByUser );
+    setLoading( false );
+  }, [ setNotebooks, user ] );
 
   useEffect( () => {
     setLoading( true );
+    fetchNotebooks();
+  }, [ fetchNotebooks ] );
 
-    const fetchData = async () => {
-      const urlAPI = "http://localhost:3000/users";
-      const response = await fetch(urlAPI);
-      const dataFromAPI = await response.json();
-      const userList = dataFromAPI.body;
-
-      if ( userList.length > 0 ) {
-        const existingUser = userList.find( element => {
-          return element.name === user.name;
-        } );
-
-        if ( existingUser ) {
-          setUser( { ...user, _id: existingUser._id } );
-          const fetchNotebooks = async ( existingUser ) => {
-            const urlAPI = "http://localhost:3000/notebooks?user=" + existingUser._id;
-            const response = await fetch(urlAPI);
-            const dataFromAPI = await response.json();
-            setNotebooks( dataFromAPI.body );
-          };
-
-          fetchNotebooks( existingUser );
-        }
-      }
-    };
-    
-    fetchData();
-
-    setLoading( false );
-  }, [ setLoading, setNotebooks ] );
+  let content;
+  if ( loading === true ) {
+    content = <p className="loading">Loading...</p>;
+  } else {
+    if ( notebooks.length >= 1 ) {
+      content = <NotebooksContainer notebooks={ notebooks } />;
+    } else {
+      content = <p>You don't have any notebooks.</p>;
+    }
+  }
 
   return (
     <div className="NotebookCollection">
@@ -52,15 +43,8 @@ const NotebookCollection = () => {
 
       <Logout />
 
-      { loading &&
-        <p className="loading">Loading...</p>
-      }
-
-      { ( notebooks.length > 0 ) 
-        ? <NotebooksContainer notebooks={ notebooks } />
-        : `You don't have any notebooks.`
-      }
-
+      { content }
+      
     </div>
   );
 }

@@ -9,7 +9,8 @@ const Logout = () => {
   const handleLogout = () => {
     setUser( {
       _id: null,
-      name: null
+      name: null,
+      username: null,
     } );
   };
 

@@ -2,7 +2,8 @@ import { createContext, useMemo, useState } from 'react';
 
 const defaultValue = {
     _id: null,
-    name: null
+    name: null,
+    username: null,
 };
 
 export const UserContext = createContext(defaultValue);
