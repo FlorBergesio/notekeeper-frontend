@@ -11,6 +11,8 @@ const Login = () => {
     password: null
   });
 
+  const [ error, setError ] = useState( false );
+
   const refUserInput = useRef( null );
   const refpasswordInput = useRef( null );
 
@@ -27,12 +29,17 @@ const Login = () => {
     const response = await fetch(urlAPI, requestOptions);
 
     const dataFromAPI = await response.json();
-    const userLoggedIn = dataFromAPI.body;
-    setUser({
-      _id: userLoggedIn._id,
-      name: userLoggedIn.name,
-      username: userLoggedIn.username,
-    });
+
+    if ( dataFromAPI.body !== "" ) {
+      const userLoggedIn = dataFromAPI.body;
+      setUser({
+        _id: userLoggedIn._id,
+        name: userLoggedIn.name,
+        username: userLoggedIn.username,
+      });
+    } else {
+      setError( dataFromAPI.error );
+    }
   }, [ userLogin, setUser ] );
 
   useEffect( () => {
@@ -80,6 +87,10 @@ const Login = () => {
           text="Login"
         />
       </form>
+
+      { error &&
+        <p>{ error }</p>
+      }
     </div>
   );
 }
