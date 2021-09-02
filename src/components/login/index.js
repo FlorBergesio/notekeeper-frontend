@@ -91,6 +91,8 @@ const Login = () => {
       { error &&
         <p>{ error }</p>
       }
+
+      <a href="/register">Register</a>
     </div>
   );
 }
