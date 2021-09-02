@@ -35,10 +35,17 @@ const NotebookCollection = () => {
     }
   }
 
+  let notebookCollectionTitle;
+  if ( user.name ) {
+    notebookCollectionTitle = `${ user.name }'${ ( user.name.slice(-1) !== 's' ) ? 's' : '' }`;
+  } else {
+    notebookCollectionTitle = "Your";
+  }
+
   return (
     <div className="NotebookCollection">
       <h2>
-        { user.name }'{ ( user.name.slice(-1) !== 's' ) ? 's' : '' } Notebook Collection
+        { notebookCollectionTitle } Notebook Collection
       </h2>
 
       <Logout />
