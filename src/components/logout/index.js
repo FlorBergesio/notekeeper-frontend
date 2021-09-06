@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import './index.css';
-import Button from './../button';
+import Button from '@material-ui/core/Button'
 
 const Logout = () => {
   const { setUser } = useContext( UserContext );
@@ -17,9 +17,12 @@ const Logout = () => {
   return (
     <div className="Logout">
       <Button
-        text="Logout"
-        handleClick={ handleLogout }
-      />
+        variant="contained"
+        color="primary"
+        onClick={ handleLogout }
+      >
+        Logout
+      </Button>
     </div>
   );
 }

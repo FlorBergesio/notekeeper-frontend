@@ -1,7 +1,10 @@
 import { useRef, useContext, useState, useEffect, useCallback } from 'react';
 import { UserContext } from '../../context/UserContext';
 import './index.css';
-import Button from './../button';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid'
+
 
 const Login = () => {
   const { setUser } = useContext( UserContext );
@@ -66,26 +69,46 @@ const Login = () => {
       </h2>
 
       <form onSubmit={ handleFormSubmit }>
-        <label htmlFor="userInput">Username:</label>
-        <input 
-          type="text" 
-          id="userInput" 
-          placeholder="Your username"
-          ref={refUserInput}
-        />
+        <Grid
+          container
+          spacing={1}
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          alignContent="center"          
+        >
+          <Grid item>
+            <TextField
+              variant="filled"
+              color="primary"
+              label="Username"
+              placeholder="Your username"
+              inputRef={refUserInput}
+            />
+          </Grid>
+          
+          <Grid item>
+            <TextField
+              variant="filled"
+              color="primary"
+              type="password"
+              label="Password"
+              placeholder="Your password"
+              inputRef={refpasswordInput}
+            />
+          </Grid>
 
-        <label htmlFor="passwordInput">Password:</label>
-        <input 
-          type="password" 
-          id="passwordInput" 
-          placeholder="Your password"
-          ref={refpasswordInput}
-        />
-
-        <Button
-          type="Submit"
-          text="Login"
-        />
+          <Grid item>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+            >
+              Submit
+            </Button>
+          </Grid>
+          
+        </Grid>
       </form>
 
       { error &&
