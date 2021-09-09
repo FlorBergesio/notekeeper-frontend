@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../context/UserContext';
 import './index.css';
-import Logout from './../logout';
 import NotebooksContainer from '../notebooks-container';
+import NotebookModal from '../notebook-modal';
 
 const NotebookCollection = () => {
   const { user } = useContext( UserContext );
 
   const [ loading, setLoading ] = useState( false );
   const [ notebooks, setNotebooks ] = useState( [] );
+  const [ successMessage, setSuccessMessage ] = useState("");
 
   const fetchNotebooks = useCallback( async () => {
     const urlAPI = `${process.env.REACT_APP_API_URL}/notebooks?user=${user._id}`;
@@ -17,12 +18,16 @@ const NotebookCollection = () => {
     const notebooksByUser = dataFromAPI.body;
     setNotebooks( notebooksByUser );
     setLoading( false );
-  }, [ setNotebooks, user ] );
+  }, [ successMessage, setNotebooks, user ] );
 
   useEffect( () => {
     setLoading( true );
     fetchNotebooks();
-  }, [ fetchNotebooks ] );
+  }, [ successMessage, fetchNotebooks ] );
+
+  const handleNotebookCreation = () => {
+    setSuccessMessage("Success");
+  };
 
   let content;
   if ( loading === true ) {
@@ -48,7 +53,7 @@ const NotebookCollection = () => {
         { notebookCollectionTitle } Notebook Collection
       </h2>
 
-      <Logout />
+      <NotebookModal onNotebookCreation={ handleNotebookCreation } />
 
       { content }
       
