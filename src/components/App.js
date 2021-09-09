@@ -3,6 +3,7 @@ import { UserContext } from '../context/UserContext';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Login from './login';
+import Logout from './logout';
 import NotebookCollection from './notebook-collection';
 import Register from './register';
 
@@ -13,7 +14,10 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1><a href="/">Notekeeper</a></h1>
+        <h1>Notekeeper</h1>
+        { ( user._id !== null ) && 
+          <Logout />
+        }
       </header>
       <BrowserRouter>
         <Switch>
