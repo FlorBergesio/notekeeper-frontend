@@ -1,5 +1,5 @@
 import { useRef, useContext, useState, useEffect, useCallback } from 'react';
-import { UserContext } from '../../context/UserContext';
+//import { UserContext } from '../../context/UserContext';
 import './index.css';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -7,12 +7,13 @@ import Grid from '@material-ui/core/Grid'
 import { Redirect } from "react-router-dom";
 
 const Register = () => {
-  const { user, setUser } = useContext( UserContext );
+  //const { user, setUser } = useContext( UserContext );
+  const [ registerSuccessfull, setRegisterSuccessfull ] = useState( false );
 
   const [ userRegister, setUserRegister ] = useState({
-      username: null,
-      name: null,
-      password: null
+    username: null,
+    name: null,
+    password: null
   });
 
   const refUserInput = useRef( null );
@@ -37,16 +38,17 @@ const Register = () => {
     const dataFromAPI = await response.json();
 
     if ( dataFromAPI.body !== "" ) {
-      const userRegistered = dataFromAPI.body;
+      /* const userRegistered = dataFromAPI.body;
       setUser({
           _id: userRegistered._id,
           name: userRegistered.name,
           username: userRegistered.username,
-      });
+      }); */
+      setRegisterSuccessfull( true );
     } else {
       setError( dataFromAPI.error );
     }
-  }, [ userRegister, setUser ] );
+  }, [ userRegister, setRegisterSuccessfull ] );
 
   useEffect( () => {
     if ( userRegister.username !== null && userRegister.name !== null && userRegister.password !== null ) {
@@ -75,7 +77,7 @@ const Register = () => {
     });
   };
 
-  if ( user.username !== null ) {
+  if ( registerSuccessfull ) {
     return <Redirect to='/' />;
   }
 
