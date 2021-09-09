@@ -1,4 +1,5 @@
 import './index.css';
+import Grid from '@material-ui/core/Grid';
 import Notebook from './../notebook';
 
 const NotebooksContainer = ( { notebooks } ) => {
@@ -11,7 +12,15 @@ const NotebooksContainer = ( { notebooks } ) => {
 
   return (
     <div className="NotebooksContainer">
-      { notebooksMap }
+      <Grid
+        container
+        spacing={ 2 }
+        justifyContent="center"
+      >
+
+        { notebooksMap }
+
+      </Grid>
     </div>
   );
 };
