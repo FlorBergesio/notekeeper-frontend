@@ -1,12 +1,14 @@
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 import './App.css';
 import Login from './login';
 import Logout from './logout';
 import NotebookCollection from './notebook-collection';
+import NotebookCRUD from './notebook-crud';
 import Register from './register';
-
+import Error404 from './error404';
+import Button from '@material-ui/core/Button';
 
 const App = () => {
   const { user } = useContext( UserContext );
@@ -14,24 +16,57 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Notekeeper</h1>
+      <Link to="/"><h1>Notekeeper</h1></Link>
         { ( user._id !== null ) && 
           <Logout />
         }
       </header>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/register">
-            <Register />
-          </Route>
-          <Route exact path="/">
-            { ( user.name === null ) 
-              ? <Login />
-              : <NotebookCollection />
-            }
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      
+      <Switch>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="/register">
+          <Register />
+        </Route>
+        <Route exact path="/notebook">
+          <NotebookCRUD />
+        </Route>
+        <Route exact path="/">
+          { ( user.name !== null ) 
+            ? <NotebookCollection />
+            : (
+              <nav>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  to={'/'}
+                >
+                  Home
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  to={'/login'}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  to={'/register'}
+                >
+                  Register
+                </Button>
+              </nav>
+            )
+          }
+        </Route>
+        <Route component={ Error404 } />
+      </Switch>
     </div>
   );
 };
