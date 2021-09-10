@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
 
-const Notebook = ( { notebook } ) => {
+const Notebook = ( { notebook, deleteFunction } ) => {
   return (
     <Grid
         item
@@ -17,7 +17,11 @@ const Notebook = ( { notebook } ) => {
           <h3>{ notebook.name }</h3>
           <p>Id: { notebook._id }</p>
           <p>Date: { notebook.date }</p>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={ deleteFunction }
+          >
             Delete
           </Button>
           

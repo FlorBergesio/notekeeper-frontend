@@ -11,6 +11,7 @@ const NotebookCollection = () => {
 
   const [ loading, setLoading ] = useState( false );
   const [ notebooks, setNotebooks ] = useState( [] );
+  const [ alert, setAlert ] = useState( false );
 
   const fetchNotebooks = useCallback( async () => {
     const urlAPI = `${process.env.REACT_APP_API_URL}/notebooks?user=${user._id}`;
@@ -24,7 +25,31 @@ const NotebookCollection = () => {
   useEffect( () => {
     setLoading( true );
     fetchNotebooks();
-  }, [ fetchNotebooks ] );
+  }, [ fetchNotebooks, alert ] );
+
+  // Alert show and disappear after 5 seconds
+  useEffect( () => {
+    if ( !!alert ) {
+      const timer = setTimeout(() => {
+        setAlert( false );
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [ alert ] );
+
+  const handleDeleteNotebook = async ( notebook_id ) => {
+    const urlAPI = `${process.env.REACT_APP_API_URL}/notebooks/${notebook_id}`;
+    const requestOptions = {
+      method: 'DELETE'
+    };
+    const response = await fetch(urlAPI, requestOptions);
+    const dataFromAPI = await response.json();
+    if ( dataFromAPI.body !== "" ) {
+      setAlert( dataFromAPI.body );
+    } else {
+      setAlert( dataFromAPI.error );
+    }
+  };
 
   let content;
   if ( loading === true ) {
@@ -35,6 +60,7 @@ const NotebookCollection = () => {
         return ( <Notebook 
           key = { element._id }
           notebook = { element }
+          deleteFunction = { () => handleDeleteNotebook( element._id ) }
         /> );
       });
 
@@ -76,6 +102,10 @@ const NotebookCollection = () => {
       >
         New
       </Button>
+
+      { alert &&
+        <p>{ alert }</p>
+      }
 
       { content }
       
