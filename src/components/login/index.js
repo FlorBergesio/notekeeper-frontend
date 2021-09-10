@@ -1,6 +1,7 @@
 import { useRef, useContext, useState, useEffect, useCallback } from 'react';
 import { UserContext } from '../../context/UserContext';
 import './index.css';
+import { Redirect, Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid'
@@ -14,6 +15,7 @@ const Login = () => {
     password: null
   });
 
+  const [ loginSuccessfull, setLoginSuccessfull ] = useState( false );
   const [ error, setError ] = useState( false );
 
   const refUserInput = useRef( null );
@@ -40,10 +42,12 @@ const Login = () => {
         name: userLoggedIn.name,
         username: userLoggedIn.username,
       });
+      setLoginSuccessfull( true );
+
     } else {
       setError( dataFromAPI.error );
     }
-  }, [ userLogin, setUser ] );
+  }, [ userLogin, setUser, setLoginSuccessfull ] );
 
   useEffect( () => {
     if ( userLogin.username !== null && userLogin.password !== null ) {
@@ -61,6 +65,10 @@ const Login = () => {
       password: passwordInput
     });
   };
+
+  if ( loginSuccessfull ) {
+    return <Redirect to='/' />;
+  }
 
   return (
     <div className="Login">
@@ -115,7 +123,7 @@ const Login = () => {
         <p>{ error }</p>
       }
 
-      <a href="/register">Register</a>
+      <Link to="/register">Register</Link>
     </div>
   );
 }
