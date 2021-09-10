@@ -4,7 +4,7 @@ import './index.css';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Notebook from './../notebook';
+import NotebookCard from './../notebook-card';
 
 const NotebookCollection = () => {
   const { user } = useContext( UserContext );
@@ -57,7 +57,7 @@ const NotebookCollection = () => {
   } else {
     if ( notebooks.length >= 1 ) {
       const notebooksMap = notebooks.map( ( element ) => {
-        return ( <Notebook 
+        return ( <NotebookCard 
           key = { element._id }
           notebook = { element }
           deleteFunction = { () => handleDeleteNotebook( element._id ) }
@@ -98,7 +98,7 @@ const NotebookCollection = () => {
         variant="contained"
         color="primary"
         component={Link}
-        to={'/notebook'}
+        to={'/notebook/new'}
       >
         New
       </Button>

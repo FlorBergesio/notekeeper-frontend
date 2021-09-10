@@ -8,6 +8,7 @@ import NotebookCollection from './notebook-collection';
 import NotebookCRUD from './notebook-crud';
 import Register from './register';
 import Error404 from './error404';
+import Notebook from './notebook';
 import Button from '@material-ui/core/Button';
 
 const App = () => {
@@ -29,8 +30,11 @@ const App = () => {
         <Route exact path="/register">
           <Register />
         </Route>
-        <Route exact path="/notebook">
+        <Route exact path="/notebook/new">
           <NotebookCRUD />
+        </Route>
+        <Route exact path="/notebook">
+          <Notebook />
         </Route>
         <Route exact path="/">
           { ( user.name !== null ) 
