@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
 
-const NotebookCard = ( { notebook, deleteFunction } ) => {
+const NotebookCard = ( { notebook, handleViewNotebook, handleDeleteNotebook } ) => {
   return (
     <Grid
         item
@@ -20,7 +20,14 @@ const NotebookCard = ( { notebook, deleteFunction } ) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={ deleteFunction }
+            onClick={ handleViewNotebook }
+          >
+            Open Notebook
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={ handleDeleteNotebook }
           >
             Delete
           </Button>

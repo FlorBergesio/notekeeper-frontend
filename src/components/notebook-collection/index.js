@@ -1,14 +1,17 @@
 import { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../context/UserContext';
+import { NotebookContext } from '../../context/NotebookContext';
 import './index.css';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import NotebookCard from './../notebook-card';
 
 const NotebookCollection = () => {
   const { user } = useContext( UserContext );
+  const { setNotebook } = useContext( NotebookContext );
 
+  const [ viewNotebook, setViewNotebook ] = useState( false );
   const [ loading, setLoading ] = useState( false );
   const [ notebooks, setNotebooks ] = useState( [] );
   const [ alert, setAlert ] = useState( false );
@@ -37,6 +40,15 @@ const NotebookCollection = () => {
     }
   }, [ alert ] );
 
+  const handleViewNotebook = ( notebook ) => {
+    setNotebook({
+      _id: notebook._id,
+      name: notebook.name,
+    });
+    
+    setViewNotebook( true );
+  };
+
   const handleDeleteNotebook = async ( notebook_id ) => {
     const urlAPI = `${process.env.REACT_APP_API_URL}/notebooks/${notebook_id}`;
     const requestOptions = {
@@ -51,6 +63,10 @@ const NotebookCollection = () => {
     }
   };
 
+  if ( viewNotebook ) {
+    return <Redirect to='/notebook' />;
+  }
+
   let content;
   if ( loading === true ) {
     content = <p className="loading">Loading...</p>;
@@ -60,7 +76,8 @@ const NotebookCollection = () => {
         return ( <NotebookCard 
           key = { element._id }
           notebook = { element }
-          deleteFunction = { () => handleDeleteNotebook( element._id ) }
+          handleViewNotebook = { () => handleViewNotebook( element ) }
+          handleDeleteNotebook = { () => handleDeleteNotebook( element._id ) }
         /> );
       });
 
