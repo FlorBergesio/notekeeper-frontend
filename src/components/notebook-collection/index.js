@@ -2,7 +2,8 @@ import { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../context/UserContext';
 import './index.css';
 import NotebooksContainer from '../notebooks-container';
-import NotebookModal from '../notebook-modal';
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 
 const NotebookCollection = () => {
   const { user } = useContext( UserContext );
@@ -53,7 +54,15 @@ const NotebookCollection = () => {
         { notebookCollectionTitle } Notebook Collection
       </h2>
 
-      <NotebookModal onNotebookCreation={ handleNotebookCreation } />
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        component={Link}
+        to={'/notebook'}
+      >
+        New
+      </Button>
 
       { content }
       
