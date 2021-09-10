@@ -6,12 +6,15 @@ import reportWebVitals from './reportWebVitals';
 
 import { BrowserRouter } from 'react-router-dom';
 import { UserContextProvider } from './context/UserContext';
+import { NotebookContextProvider } from './context/NotebookContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserContextProvider>
-        <App />
+        <NotebookContextProvider>
+          <App />
+        </NotebookContextProvider>
       </UserContextProvider>
     </BrowserRouter>
   </React.StrictMode>,
