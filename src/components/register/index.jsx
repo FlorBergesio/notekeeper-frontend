@@ -1,4 +1,5 @@
-import { useRef, useContext, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
+//import { useRef, useContext, useState, useEffect, useCallback } from 'react';
 //import { UserContext } from '../../context/UserContext';
 import './index.css';
 import Button from '@material-ui/core/Button';
@@ -49,12 +50,6 @@ const Register = () => {
       setError( dataFromAPI.error );
     }
   }, [ userRegister, setRegisterSuccessfull ] );
-
-  useEffect( () => {
-    if ( userRegister.username !== null && userRegister.name !== null && userRegister.password !== null ) {
-      validateUser();
-    }
-  }, [ userRegister, validateUser ] );
 
   useEffect( () => {
     if ( userRegister.username !== null && userRegister.name !== null && userRegister.password !== null ) {
