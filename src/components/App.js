@@ -6,6 +6,7 @@ import Login from './login';
 import Logout from './logout';
 import NotebookCollection from './notebook-collection';
 import NotebookCRUD from './notebook-crud';
+import NoteCRUD from './note-crud';
 import Register from './register';
 import Error404 from './error404';
 import Notebook from './notebook';
@@ -32,6 +33,9 @@ const App = () => {
         </Route>
         <Route exact path="/notebook/new">
           <NotebookCRUD />
+        </Route>
+        <Route exact path="/note/new">
+          <NoteCRUD />
         </Route>
         <Route exact path="/notebook">
           <Notebook />
