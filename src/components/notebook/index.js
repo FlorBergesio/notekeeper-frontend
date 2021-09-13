@@ -8,7 +8,7 @@ import Note from '../note';
 const Notebook = () => {
   const { notebook } = useContext( NotebookContext );
 
-  //const [ alert, setAlert ] = useState( false );
+  const [ alert, setAlert ] = useState( false );
   const [ loading, setLoading ] = useState( false );
   const [ notes, setNotes ] = useState( [] );
 
@@ -33,7 +33,21 @@ const Notebook = () => {
   useEffect( () => {
     setLoading( true );
     fetchNotes();
-  }, [ fetchNotes ] );
+  }, [ fetchNotes, alert ] );
+
+  const handleDeleteNote = async ( note_id ) => {
+    const urlAPI = `${process.env.REACT_APP_API_URL}/notes/${note_id}`;
+    const requestOptions = {
+      method: 'DELETE'
+    };
+    const response = await fetch(urlAPI, requestOptions);
+    const dataFromAPI = await response.json();
+    if ( dataFromAPI.body !== "" ) {
+      setAlert( dataFromAPI.body );
+    } else {
+      setAlert( dataFromAPI.error );
+    }
+  };
 
   let content;
   if ( loading === true ) {
@@ -42,7 +56,11 @@ const Notebook = () => {
     if ( notes.length >= 1 ) {
       const notesMap = notes.map( ( element ) => {
         return (
-          <Note note={ element } />
+          <Note
+            key = { element._id }
+            note={ element }
+            handleDeleteNote = { () => handleDeleteNote( element._id ) }
+          />
         );
       });
 

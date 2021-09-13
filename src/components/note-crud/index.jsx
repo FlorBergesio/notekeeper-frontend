@@ -47,7 +47,7 @@ const NoteCRUD = () => {
   }, [ newNote.text, setCreationSuccessfull, notebook._id ] );
 
   useEffect( () => {
-    if ( newNote.text !== null && notebook._idt !== null && !actionInProgress ) {
+    if ( newNote.text !== null && notebook._id !== null && !actionInProgress ) {
       setActionInProgress( true );
       validateNote()
         .then( setActionInProgress( false ) );

@@ -15,7 +15,7 @@ const Note = ( props ) => {
                 </IconButton>
                 <IconButton
                     aria-label="Delete"
-                    onClick={ () => alert("delete") }
+                    onClick={ props.handleDeleteNote }
                     >
                     <DeleteIcon />
                 </IconButton>
