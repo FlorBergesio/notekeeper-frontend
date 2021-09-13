@@ -1,0 +1,13 @@
+.Note {
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+    width: 100%;
+}
+
+.Note > p {
+    width: 70%;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 15px;
+}

@@ -1,16 +1,39 @@
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { NotebookContext } from '../../context/NotebookContext';
 import './index.css';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import Note from '../note';
 
 const Notebook = () => {
   const { notebook } = useContext( NotebookContext );
 
-  const [ alert, setAlert ] = useState( false );
+  //const [ alert, setAlert ] = useState( false );
   const [ loading, setLoading ] = useState( false );
   const [ notes, setNotes ] = useState( [] );
+
+  const fetchNotes = useCallback( async () => {
+    const urlAPI = `${process.env.REACT_APP_API_URL}/notes?notebook=${notebook._id}`;
+    /* const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "notebook": notebook._id,
+        "text": 'text',
+      })
+    }; */
+    // const response = await fetch(urlAPI, requestOptions);
+    const response = await fetch(urlAPI);
+    const dataFromAPI = await response.json();
+    const notesByNotebook = dataFromAPI.body;
+    setNotes( notesByNotebook.reverse() );
+    setLoading( false );
+  }, [ setNotes, notebook._id ] );
+
+  useEffect( () => {
+    setLoading( true );
+    fetchNotes();
+  }, [ fetchNotes ] );
 
   let content;
   if ( loading === true ) {
@@ -18,20 +41,19 @@ const Notebook = () => {
   } else {
     if ( notes.length >= 1 ) {
       const notesMap = notes.map( ( element ) => {
-        return ( <p>{ element._id }</p>);
+        return (
+          <Note note={ element } />
+        );
       });
 
       content = (
-        <Grid
+        <div
           className="NotesContainer"
-          container
-          spacing={ 2 }
-          justifyContent="center"
         >
 
           { notesMap }
 
-        </Grid>
+        </div>
       );
     } else {
       content = <p>You don't have any notes.</p>;
