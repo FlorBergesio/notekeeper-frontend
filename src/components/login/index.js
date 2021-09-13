@@ -123,7 +123,14 @@ const Login = () => {
         <p>{ error }</p>
       }
 
-      <Link to="/register">Register</Link>
+      <Button
+        variant="contained"
+        color="primary"
+        component={Link}
+        to={'/register'}
+      >
+        Register
+      </Button>
     </div>
   );
 }
