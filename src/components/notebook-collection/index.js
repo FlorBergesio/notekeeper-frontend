@@ -23,7 +23,7 @@ const NotebookCollection = () => {
     const notebooksByUser = dataFromAPI.body;
     setNotebooks( notebooksByUser );
     setLoading( false );
-  }, [ setNotebooks, user ] );
+  }, [ setNotebooks, user._id ] );
 
   useEffect( () => {
     setLoading( true );
