@@ -2,7 +2,7 @@ import { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { NotebookContext } from '../../context/NotebookContext';
 import './index.css';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import NotebookCard from './../notebook-card';
@@ -10,6 +10,8 @@ import NotebookCard from './../notebook-card';
 const NotebookCollection = () => {
   const { user } = useContext( UserContext );
   const { setNotebook } = useContext( NotebookContext );
+  const history = useHistory();
+  useEffect( () => history.push("/"), [ history ] );
 
   const [ viewNotebook, setViewNotebook ] = useState( false );
   const [ loading, setLoading ] = useState( false );

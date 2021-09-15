@@ -1,7 +1,7 @@
 import { useRef, useContext, useState, useEffect, useCallback } from 'react';
 import { UserContext } from '../../context/UserContext';
 import './index.css';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link, useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid'
@@ -9,6 +9,8 @@ import Grid from '@material-ui/core/Grid'
 
 const Login = () => {
   const { setUser } = useContext( UserContext );
+  const history = useHistory();
+  useEffect( () => history.push("/login"), [ history ] );
 
   const [ userLogin, setUserLogin ] = useState({
     username: null,

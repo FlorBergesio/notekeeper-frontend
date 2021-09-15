@@ -5,10 +5,12 @@ import './index.css';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid'
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 const Register = () => {
-  //const { user, setUser } = useContext( UserContext );
+  const history = useHistory();
+  useEffect( () => history.push("/register"), [ history ] );
+
   const [ registerSuccessfull, setRegisterSuccessfull ] = useState( false );
 
   const [ userRegister, setUserRegister ] = useState({

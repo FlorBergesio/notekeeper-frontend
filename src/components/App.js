@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch, Link, useHistory } from 'react-router-dom';
 import './App.css';
 import Login from './login';
 import Logout from './logout';
@@ -13,11 +13,23 @@ import Button from '@material-ui/core/Button';
 
 const App = () => {
   const { user } = useContext( UserContext );
+  const history = useHistory();
 
   return (
     <div className="App">
       <header className="App-header">
-      <Link to="/"><h1>Notekeeper</h1></Link>
+        { ( user._id !== null ) && 
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={ () => history.goBack() }
+          >
+            Back
+          </Button>
+        }
+
+        <Link to="/"><h1>Notekeeper</h1></Link>
+
         { ( user._id !== null ) && 
           <Logout />
         }

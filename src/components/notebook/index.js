@@ -4,11 +4,13 @@ import './index.css';
 import Button from '@material-ui/core/Button';
 import Note from '../note';
 import NotebookCRUD from '../notebook-crud';
-import { Route, Switch, Link, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, Link, useRouteMatch, useHistory } from 'react-router-dom';
 
 const Notebook = () => {
   const { notebook } = useContext( NotebookContext );
   const { path } = useRouteMatch();
+  const history = useHistory();
+  useEffect( () => history.push("/notebook"), [ history ] );
 
   const [ alert, setAlert ] = useState( false );
   const [ loading, setLoading ] = useState( false );
